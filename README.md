@@ -14,8 +14,11 @@ As an example, GPIO0 port as counter1 is used:
 {"NAME":"ESP32-GGreg20","GPIO":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,0,1,1,1,0,0,0,0,1,1,1,1,1,0,0,1],"FLAG":0,"BASE":1}
 ```
 
-## Tasmota Berry Script Code
+## Tasmota32 Berry Script Code
 The ggreg20_v3_drv.be code can be loaded manually with copy/paste, or stored in flash and loaded at startup in autoexec.be
+
+>Note: This code is supported by ESP32 firmware only.
+
 ```berry
 #-
  - Example of GGreg20_V3 driver written in Berry
