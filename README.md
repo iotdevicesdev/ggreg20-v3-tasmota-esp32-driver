@@ -107,11 +107,24 @@ tasmota.add_driver(GGREG20_V3)
 ```
 
 ## Visualization
+Following data is calculated by the GGreg20_V3 driver:
+- CPM - SBM-20 counts per minute
+- Ionizing Radiation Power, uSv/H
+- Ionizing Radiation Dose counted from uptime, uSv
+- Ionizing Radiation Power - A 5-minutes Moving Average
+
+```json
+{"Time":"2022-01-08T23:22:11","COUNTER":{"C1":6966},"ESP32":{"Temperature":53.3},"GGreg20_V3":{"cpm":25,"power":0.135,"dose":0.0020,"power ma5":0.181},"TempUnit":"C"}
+
+```
+and figured out by the Tasmota's Web UI:
+
+![GGreg20_V3 Tasmota ESP32](https://github.com/iotdevicesdev/ggreg20-v3-tasmota-esp32-driver/blob/main/Tasmota_GGreg20_Dashboard-2022-01-08_220634.jpg)
 
 ## Buy GGreg_V3 Ionizing Radiation Detector Module
 On Tindie: https://www.tindie.com/products/iotdev/ggreg20_v3-ionizing-radiation-detector/
 
-IoT-devices Online Shop: https://iot-devices.com.ua/en/
+IoT-devices Online Shop: https://iot-devices.com.ua/en/product/ggreg20_v3-ionizing-radiation-detector-with-geiger-tube-sbm-20/
 
 ## Watch demo video
 - coming soon
