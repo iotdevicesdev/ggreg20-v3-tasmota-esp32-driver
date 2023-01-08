@@ -25,7 +25,7 @@ class GGREG20_V3 : Driver
   var st_ctr_val
   var ctr
 
-#print(tasmota.read_sensors())
+# print(tasmota.read_sensors())
   
   def read_power()
     import string
@@ -50,7 +50,7 @@ class GGREG20_V3 : Driver
       if ma5_pointer <= 4 
         ma5_pointer = ma5_pointer + 1 else ma5_pointer = 1 
       end;
-	pwr_minute = cpm * factor_power
+      pwr_minute = cpm * factor_power
       dose = dose + (pwr_minute / 60)
       ctr = 0 
     end
@@ -91,4 +91,5 @@ class GGREG20_V3 : Driver
 
 end
 GGREG20_V3 = GGREG20_V3()
+
 tasmota.add_driver(GGREG20_V3)
