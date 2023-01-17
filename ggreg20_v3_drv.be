@@ -1,10 +1,14 @@
 #-
  - Example of GGreg20_V3 driver written in Berry
  - Copyright IoT-devices, LLC - Kyiv - Ukraine - 2022
+ - License https://github.com/iotdevicesdev/ggreg20-v3-tasmota-esp32-driver/blob/main/LICENSE
  - Note. You may additionaly use tasmota.cmd('counter1 0') to reset counter1
  -#
 
+tasmota.cmd('counter1 0')
+
 import string
+var factor_power = 0.0054  # Tubes can vary (+ -20%), so we recommend using a conversion factor of 0.0054 to 0.0092 and calibrating the calculations with a trusted (certified) device.
 var ctr = 0
 var cur_ctr = 0
 var cpm = 0
@@ -12,6 +16,7 @@ var ma5_pointer = 1
 var ma5_val = 0
 var dose = 0
 ma5 = {}
+var pwr_minute = 0
 
 class GGREG20_V3 : Driver
   var st, fn
@@ -20,7 +25,7 @@ class GGREG20_V3 : Driver
   var st_ctr_val
   var ctr
 
-#  print(tasmota.read_sensors())
+# print(tasmota.read_sensors())
   
   def read_power()
     import string
@@ -42,16 +47,17 @@ class GGREG20_V3 : Driver
       var j = 1
       while j <= size(ma5) do ma5_sum = ma5_sum + ma5[j]; j = j + 1 end end
       ma5_val = ma5_sum / size(ma5)
-      dose = dose + (self.num_ctr_val * 0.00009)
       if ma5_pointer <= 4 
         ma5_pointer = ma5_pointer + 1 else ma5_pointer = 1 
-      end; 
+      end;
+      pwr_minute = cpm * factor_power
+      dose = dose + (pwr_minute / 60)
       ctr = 0 
     end
 
     cur_ctr = number(ctr_val)
     cpm = cur_ctr - self.st_ctr_val
-    self.num_ctr_val = cpm * 0.0054
+    self.num_ctr_val = cpm * factor_power
     return self.num_ctr_val; self.st_ctr_val
   end
 
@@ -65,11 +71,13 @@ class GGREG20_V3 : Driver
   def web_sensor()
       import string
       var msg = string.format(
+                "{s}GGreg20_V3 seconds{m}%i / 60 sec{e}"..
                 "{s}GGreg20_V3 cpm{m}%i CPM{e}"..
                 "{s}GGreg20_V3 power{m}%1.3f uSv/h{e}"..
+                "{s}GGreg20_V3 power last minute{m}%1.3f uSv/h{e}"..
                 "{s}GGreg20_V3 dose{m}%1.4f uSv{e}"..
                 "{s}GGreg20_V3 ma5{m}%1.3f uSv/h{e}", 
-                cpm, self.num_ctr_val, dose, ma5_val)
+                ctr, cpm, self.num_ctr_val, pwr_minute, dose, ma5_val)
       tasmota.web_send_decimal(msg)
   end
 
@@ -77,10 +85,11 @@ class GGREG20_V3 : Driver
   def json_append()
       import string
       var power = self.num_ctr_val
-      var msg = string.format(",\"GGreg20_V3\":{\"cpm\":%i,\"power\":%1.3f,\"dose\":%1.4f,\"power ma5\":%1.3f}", cpm, power, dose, ma5_val)
+      var msg = string.format(",\"GGreg20_V3\":{\"cpm\":%i,\"power\":%1.3f,\"dose\":%1.4f,\"power ma5\":%1.3f, \"power 1m\":%1.3f}", cpm, power, dose, ma5_val, pwr_minute)
       tasmota.response_append(msg)
   end
 
 end
 GGREG20_V3 = GGREG20_V3()
+
 tasmota.add_driver(GGREG20_V3)
