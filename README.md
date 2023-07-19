@@ -5,6 +5,8 @@ GGreg20_V3 Ionizing Radiation Detector powered SBM-20 GM tube with Generic ESP32
 
 Hackaday Project Page: https://hackaday.io/project/183103-ggreg20v3-ionizing-radiation-detector
 
+<a href="https://www.tindie.com/stores/iotdev/?ref=offsite_badges&utm_source=sellers_iotdevices&utm_medium=badges&utm_campaign=badge_large"><img src="https://d2ss6ovg47m0r5.cloudfront.net/badges/tindie-larges.png" alt="I sell on Tindie" width="200" height="104"></a>
+
 ## Documentation
 - Product description https://iot-devices.com.ua/en/product/ggreg20_v3-ionizing-radiation-detector-with-geiger-tube-sbm-20/
 - Datasheet https://iot-devices.com.ua/wp-content/uploads/2021/11/ggreg20_v3-datasheet-eng.pdf
